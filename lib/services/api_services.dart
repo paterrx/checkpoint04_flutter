@@ -59,15 +59,16 @@ class ApiServices {
   // Search Movies by text
   Future<Result> getSearchedMovie(String searchText) async {
     final endPoint = 'search/movie?query=$searchText';
-    final url = '$baseUrl$endPoint$key';
+    final url = '$baseUrl$endPoint';
     final response = await http.get(Uri.parse(url), headers: {
       'Authorization':
           'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3NTAyYjhjMDMxYzc5NzkwZmU1YzBiNGY5NGZkNzcwZCIsInN1YiI6IjYzMmMxYjAyYmE0ODAyMDA4MTcyNjM5NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.N1SoB26LWgsA33c-5X0DT5haVOD4CfWfRhwpDu9eGkc'
     });
     if (response.statusCode == 200) {
-      return Result.fromJson(jsonDecode(response.body));
+      final movies = Result.fromJson(jsonDecode(response.body));
+      return movies;
     }
-    throw Exception('Falha ao carregar a busca de filmes');
+    throw Exception('Failed to search movie');
   }
 
   // Marcar filme como "assistido" e salvar se o usuário gostou ou não
